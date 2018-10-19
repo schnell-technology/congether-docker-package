@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  congether:
+    image: schnell/congether
+    environment: 
+      - "Congether:Db:ConnectionString=mongodb://congether-mongodb:27017/congether"
+      - "Congether:Db:DefaultDatabase=congether"
+    depends_on: 
+      - mongodb
+    networks:
+      - app-network
+    ports: 
+      - "5000"
+
+  mongodb:
+    container_name: congether-mongodb
+    image: mongo
+    networks:
+      - app-network
+
+  nginx:
+    container_name: congether-nginx
+    image: nginx
+    build:
+      context: .
+      dockerfile: .docker/nginx.dockerfile
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on: 
+      - congether
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
