@@ -3,6 +3,7 @@ version: '3.4'
 services:
   congether:
     image: schnell/congether
+    restart: always
     environment: 
       - "Congether:Db:ConnectionString=mongodb://congether-mongodb:27017/congether"
       - "Congether:Db:DefaultDatabase=congether"
@@ -16,12 +17,14 @@ services:
 
   mongodb:
     container_name: congether-mongodb
+    restart: always
     image: mongo
     networks:
       - app-network
 
   nginx:
     container_name: congether-nginx
+    restart: always
     image: nginx
     build:
       context: .
