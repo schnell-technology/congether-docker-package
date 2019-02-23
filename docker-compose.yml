@@ -5,9 +5,9 @@ services:
     image: schnell/congether
     restart: always
     environment: 
-      - "Congether:Db:ConnectionString=mongodb://congether-mongodb:27017/congether"
-      - "Congether:Db:DefaultDatabase=congether"
-      - "Congether:Listener=http://*:5000"
+      Congether__Db__ConnectionString: mongodb://congether-mongodb:27017/congether
+      Congether__Db__DefaultDatabase: congether
+      Congether__Listener: http://*:5000
     depends_on: 
       - mongodb
     networks:
